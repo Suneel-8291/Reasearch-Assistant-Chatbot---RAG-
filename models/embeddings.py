@@ -3,8 +3,9 @@ import chromadb
 
 embed_model = SentenceTransformer("all-MiniLM-L6-v2")
 
-client = chromadb.Client()   # In-memory client, or use Settings for persistence
-collection = client.get_or_create_collection("research_papers")
+chroma_client = chromadb.PersistentClient(path="./chroma_db")
+collection = chroma_client.get_or_create_collection(name="research_papers")
+
 
 
 def embed_texts(texts: list[str]):
@@ -18,6 +19,7 @@ def query_chroma(query: str, n_results=5):
     query_emb = embed_model.encode([query]).tolist()
     results = collection.query(query_embeddings=query_emb, n_results=n_results)
     return results
+
 
 
 
