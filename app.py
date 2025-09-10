@@ -2,21 +2,14 @@ __import__("pysqlite3")
 import sys
 sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 
-
-
-
 import streamlit as st
-from models.embeddings import add_to_chroma, query_chroma
+from models.embeddings import add_to_chroma, query_chroma, reset_collection
 from models.llm import ask_gemini
 from utils.url_loader import load_url
 from utils.web_search import serper_search
 
 st.title("Research Assistant Chatbot")
 
-
-# -----------------------------
-# Helper function: get context
-# -----------------------------
 def get_context(user_query, n_results=5):
     """Retrieve context from local RAG or fallback to Serper search."""
 
@@ -60,13 +53,13 @@ def get_context(user_query, n_results=5):
     return context, source_info
 
 
-# -----------------------------
-# URL ingestion
-# -----------------------------
 url = st.text_input("Paste a research article URL")
 if url:
     text = load_url(url)
     if "Error" not in text:
+        # 🔹 Reset collection so old docs don't interfere
+        reset_collection()
+
         chunks = [text[i:i + 1000] for i in range(0, len(text), 1000)]
         add_to_chroma(
             docs=chunks,
@@ -78,9 +71,6 @@ if url:
         st.error(text)
 
 
-# -----------------------------
-# User query
-# -----------------------------
 query = st.text_input("Ask a research question")
 mode = st.radio("Response Mode", ["Concise", "Detailed"])
 
