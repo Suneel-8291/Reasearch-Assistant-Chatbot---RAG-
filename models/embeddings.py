@@ -1,5 +1,5 @@
 from sentence_transformers import SentenceTransformer
-from langchain.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS
 from langchain.docstore.document import Document
 import os
 
@@ -38,5 +38,6 @@ def query_faiss(query: str, n_results=5):
     # Run similarity search
     results = vectorstore.similarity_search(query, k=n_results)
     return results
+
 
 
