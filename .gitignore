@@ -1,0 +1,26 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environments
+.venv/
+venv/
+
+
+# Ignore env files
+.env
+*/.env
+config/.env
+
+
+# Environment files (keep keys safe!)
+.env
+secrets.json
+
+# Editor/OS
+.vscode/
+.idea/
+.DS_Store
+
+
+RAG-BOT/NeoStats AI Engineer Internship Use Case/AI_UseCase/config/.env
