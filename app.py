@@ -1,3 +1,10 @@
+__import__("pysqlite3")
+import sys
+sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+
+
+
+
 import streamlit as st
 from models.embeddings import add_to_chroma, query_chroma
 from models.llm import ask_gemini
@@ -110,3 +117,4 @@ Instructions:
     # Display result
     st.write(answer)
     st.caption(source_info)
+
